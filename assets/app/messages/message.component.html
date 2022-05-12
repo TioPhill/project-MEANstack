@@ -1,0 +1,19 @@
+<article class="panel panel-default" [ngStyle]="{backgroundColor: color}"
+    (mouseenter) = "color = 'green'"
+    (mouseleave) = "color = 'blue'">
+    <div class="panel-body">
+        {{messageVarClass.content}}
+        {{messageVarClassAlias.content}}
+    </div>
+    <footer class="panel-footer">
+        <div class="author">
+            {{messageVarClass.username}}
+            {{messageVarClassAlias.username}}
+        </div>
+        <div class="config">
+            <a (click)="onEdit()">Edit</a>
+            <a (click)="onDelete()">Delete</a>
+        </div>
+    </footer>
+
+</article>
