@@ -1,59 +1,57 @@
 var express = require('express'); 
-const user = require('../models/user');
 var router = express.Router();
-var User = require('../models/user') // não sei se é aqui que importa, perguntar pg 28/35
+var userRouter = require('./user')
+var messageRouter = require('./messages')
 
-router.get('/', function (req, res, next) {
-    res.render('index');
-});
-var appRoutes = require('./routes/app');
-var messageRoutes = require('./routes/messages');
 
-var app - express();
-mongoose.connect('mongodb://localhost:27017/node-angular');
-
-router.get('/message', function (req, res, next) {
-    res.render('node', {message: 'Olá, nova rota de mensagem.'});
-});
-
-router.post('/message', function(req, res, next) {
-    var messageVar = req.boby.messageBoby;
-    res.redirect('/message/' + messageVar)
-});
-
-router.get('/message/:msgParam', function (req, res, next){
-    res.render('node', {message: req.params.msgParam});
-});
-
+router.use('/user', userRouter)
+router.use('/message', messageRouter)
 
 module.exports = router;
 
-router.get('../node-mongodb-mongosse-user', function (req, res, next){
-    res.render('node');
-});
+// router.get('/', function (req, res, next) {
+//     res.render('index');
+// });
 
-app.use('/message', messageRoutes);
-app.use('/', appRoutes);
 
-router.post('../node-mongodb-mongosse-user', function (req, res, next){
-    var emailVar = req.body.emailBody;
-    var userObject =  new User({
-        firsName: 'Phillipe',
-        lastName: 'Espíndula',
-        password: 'Segredo',
-        email: emailVar
-    });
-    userObject.save();
+// router.get('/message', function (req, res, next) {
+//     res.render('node', {message: 'Olá, nova rota de mensagem.'});
+// });
 
-    res.redirect('../node-mongodb-mongosse-user');
-});
+// router.post('/message', function (req, res, next) {
+//     var user = req.headers.user
+//     var message = req.body.messageBody;
+//     var messageObject =  new Message({
+//         content: message,
+//         user
+//     });
+//     messageObject.save();
 
-router.post('../node-mongodb-mongosse-user', function (req, res, next){
-   User.findOne({}, function(err, documents){
-       if (err) {
-           return res.send('Erro!! :-(')
-       }
-       res.render('node', {firstNameV: documents});""
-   });
+//     res.send('ok')
+
+//     // res.redirect('/message/' + messageVar)
+// });
+
+// router.get('/message/:msgParam', function (req, res, next){
+//     res.render('node', {message: req.params.msgParam});
+// });
+
+
+
+// router.get('../node-mongodb-mongosse-user', function (req, res, next){
+//     res.render('node');
+// });
+
+
+
+
+// router.post('../node-mongodb-mongosse-user', function (req, res, next){
+//     User.findOne({}, function(err, documents){
+//         if (err) {
+//             return res.send('Erro!! :-(')
+//         }
+//         res.render('node', {firstNameV: documents});""
+//     });
     
-});
+// });
+
