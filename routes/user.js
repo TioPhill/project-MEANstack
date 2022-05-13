@@ -2,8 +2,8 @@ const express = require('express')
 const { appendFile } = require('fs')
 const router = express.Router()
 const mongoose = require('mongoose')
-require("../models/user")
-const usuario = mongoose.model("usuarios")
+const User = require('../models/user')
+const usuario = mongoose.model("usuarios", User.schema)
 
 router.get("/registro", (req, res) =>
 {

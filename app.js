@@ -1,17 +1,19 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-const usuarios = require("./routes/user")
 
 var appRoutes = require('./routes/app');
 
 var app = express();
-mongoose.connect('mongodb://localhost:27017/node-angular');
-// view engine setup
+mongoose.connect('mongodb://localhost:27017/node-angular', (err, db) => {
+    if (err) throw err
+    console.log('Database created')
+    
+});
+// view engine setup    
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
@@ -31,11 +33,5 @@ app.use(function (req, res, next) {
 });
 
 app.use('/', appRoutes);
-app.use("/usuarios", usuarios)
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-    return res.render('index');
-});
-
 
 module.exports = app; 
