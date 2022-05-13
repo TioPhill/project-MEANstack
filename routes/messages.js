@@ -1,11 +1,5 @@
-var express = require('express');
-const { default: mongoose } = require('mongoose');
-const { Schema } = require('mongoose');
-const { stringify } = require('querystring');
-const message = require('../models/message');
-const { schema } = require('../models/message');
-var router = express.router();
-
+const express = require('express');
+const router = express.Router();
 var Message = require('../models/message');
 
 router.get('/', function (req, res, next){
@@ -25,30 +19,33 @@ router.get('/', function (req, res, next){
 });
 
 router.post('/', function (req, res, next) {
-    var message = new Message({
-        content: req.body.content
+    var user = req.headers.user
+    var message = req.body.messageBody;
+    var messageObject =  new Message({
+        content: message,
+        user
     });
+    messageObject.save();
+
+    res.send('ok')
 });
 
-message.save(function(err, result){
-    if(err){
-        return res.status(500).json({
-            myErroTitle: 'Um erro aconteceu na hora de Salvar',
-            myError: err
-        });
-    }
-    res.status(201).json({
-        myMsgSucess: "Mensagem salva com sucesso",
-        objMessageSave : result
-    });
-}
+// message.save(function(err, result){
+//     if(err){
+//         return res.status(500).json({
+//             myErroTitle: 'Um erro aconteceu na hora de Salvar',
+//             myError: err
+//         });
+//     }
+//     res.status(201).json({
+//         myMsgSucess: "Mensagem salva com sucesso",
+//         objMessageSave : result
+//     });
+// }
+// )
 
-)
+
+
 
 module.exports = router;
 
-var schema = new schema({
-    content: {type: stringify, required: true},
-    user: {type: Schema.Types.ObjectId, ref: 'User'}
-});
-module.exports = mongoose.model('Message', schema);

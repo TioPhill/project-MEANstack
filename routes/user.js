@@ -1,29 +1,55 @@
-const express = require('express')
-const { appendFile } = require('fs')
-const router = express.Router()
-const mongoose = require('mongoose')
-const User = require('../models/user')
-const usuario = mongoose.model("usuarios", User.schema)
+const express = require('express');
+const router = express.Router();
+const User = require('../models/user');
 
 router.get("/registro", (req, res) =>
 {
-    res.render("usuarios/registro")
+    // res.render("usuarios/registro")
 })
 
-router.post("/registro", (req, res) => {
-    var erros = []
+router.post("/registro", async(req, res) => {
+    var { lastName, firstName, password, email } = req.body;
 
-    if(!req.body.firstName || typeof req.body.firstName == undefined || req.body.firstName == null){
-        erros.push({texto: "nome invalido"})
+    if(!firstName){
+        throw new Error("firstName é obrigatório");
+    }
+    if(!lastName){
+        throw new Error("lastName é obrigatório");
+    }
+    if(!password){
+        throw new Error("Uma senha é obrigatória");
+    }
+    if(!email){
+        throw new Error("Email é obrigatório");
+    }
+    var user = await User.findOne({ email });
+    
+    if(user){
+        throw new Error("E-mail já utilizado");
     }
 
-    if(!req.body.email || typeof req.body.email == undefined || req.body.email == null){
-        erros.push({texto: "email invalido"})
-    }
+    var userObject = new User({
+        firstName,
+        lastName,
+        password,
+        email
+    });
+    userObject.save();
 
-    if(!req.body.pass || typeof req.body.pass == undefined || req.body.pass == null){
-        erros.push({texto: "senha invalida"})
-    }
+    res.send('Usuário criado');
 })
+
+router.post('/signin', async (req, res) => {
+    var { email, password } = req.body;
+    
+    var user = await User.findOne({ email, password });
+    
+    if (!user) {
+        throw new Error('O usuário não existe!')
+    }
+
+    res.status(200).json({userId: user.id})
+})
+
 
 module.exports = router

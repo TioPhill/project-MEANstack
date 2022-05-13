@@ -1,3 +1,4 @@
+require('express-async-errors');
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
@@ -32,6 +33,10 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use('/', appRoutes);
 
+app.use('/', appRoutes);
+app.use((error, req, res, next) => {
+    console.log(error);
+    res.status(500).json(String(error));
+})
 module.exports = app; 
