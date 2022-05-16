@@ -1,57 +1,87 @@
-var express = require('express'); 
+var express = require('express');
 var router = express.Router();
-var userRouter = require('./user')
-var messageRouter = require('./messages')
+
+var User = require('../models/user');
+
+var Users = require('../models/users');
+
+router.get('/node-mongodb-user-busca', (req, res, next)=> {
+    User.findOne({}, (err, documents)=> {
+        if(err){
+            return res.send('Error!!');
+        }
+        res.render('node', {firstNameV: documents.firstName,
+                            lastNameV: documents.lastName,
+                            emailV: documents.email,
+                            passwordV: documents.password,
+                            messagesV: documents.messages});
+    });
+});
+
+router.get('/node-mongodb-user', (req, res) => {
+    res.render('node');
+});
+
+router.post('/node-mongodb-user', (req,res,next) => {
+
+    var emailVar = req.body.emailBody;
+
+    var userObject = new User({
+        firstName: 'Aluno',
+        lastName: 'alunoUVV',
+        password: 'Pass',
+        email: emailVar
+    });
+    userObject.save();
+
+    res.send('cadastrado');
+
+});
 
 
-router.use('/user', userRouter)
-router.use('/message', messageRouter)
+
+router.get('/', (req, res, next) => {
+    res.render('index');
+});
+
+
+router.get('/registro-usuario-salvar', (req, res) => {
+    res.render('registro-usuario-salvar');
+});
+
+router.post('/registro-usuario-salvar', (req, res) => {
+    var {name, email, user, password, confirmPass} = req.body;
+
+    var userObject = new Users({
+        name,
+        email,
+        user,
+        password,
+        confirmPass
+    });
+
+    userObject.save();
+
+    res.send('cadastrado');
+    
+});
+
+router.get('/registro-usuario-busca', (req, res) => {
+    Users.findOne({}, (err, documents) => {
+        if(err){
+            return res.send('Erro');
+        }
+        var {user, email} = documents;
+        res.render('registro-usuario-busca', {
+            user,
+            email
+        });
+    });
+});
+
+
+
+
+
 
 module.exports = router;
-
-// router.get('/', function (req, res, next) {
-//     res.render('index');
-// });
-
-
-// router.get('/message', function (req, res, next) {
-//     res.render('node', {message: 'Olá, nova rota de mensagem.'});
-// });
-
-// router.post('/message', function (req, res, next) {
-//     var user = req.headers.user
-//     var message = req.body.messageBody;
-//     var messageObject =  new Message({
-//         content: message,
-//         user
-//     });
-//     messageObject.save();
-
-//     res.send('ok')
-
-//     // res.redirect('/message/' + messageVar)
-// });
-
-// router.get('/message/:msgParam', function (req, res, next){
-//     res.render('node', {message: req.params.msgParam});
-// });
-
-
-
-// router.get('../node-mongodb-mongosse-user', function (req, res, next){
-//     res.render('node');
-// });
-
-
-
-
-// router.post('../node-mongodb-mongosse-user', function (req, res, next){
-//     User.findOne({}, function(err, documents){
-//         if (err) {
-//             return res.send('Erro!! :-(')
-//         }
-//         res.render('node', {firstNameV: documents});""
-//     });
-    
-// });
-

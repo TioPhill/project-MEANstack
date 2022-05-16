@@ -1,0 +1,16 @@
+<div class="col-md-8 col-md-offset-2">
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit(refLocalForm)" #refLocalForm="ngForm" >
+        <div class="myForm">
+            <label for="email">Email:</label>
+            <input type="email" id="email" class="form-control"
+                formControlName="emailTS" name="email"> 
+        </div>
+        <div class="myForm">
+            <label for="pass">Senha:</label>
+            <input type="password" id="pass" class="form-control"
+                formControlName="passwordTS" name="password">           
+        </div>
+        <button class="btn btn-primary" type="submit"
+            [disabled] = "!myForm.valid">Logar</button>
+    </form>
+</div>

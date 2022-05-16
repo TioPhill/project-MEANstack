@@ -1,4 +1,3 @@
-require('express-async-errors');
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
@@ -7,24 +6,30 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 var appRoutes = require('./routes/app');
+var messageRoutes = require('./routes/messages');
+var userRoutes = require('./routes/user');
+var authRoutes = require('./routes/auth');
 
 var app = express();
-mongoose.connect('mongodb://localhost:27017/node-angular', (err, db) => {
-    if (err) throw err
-    console.log('Database created')
-    
-});
-// view engine setup    
+
+mongoose.connect('mongodb://localhost:27017/node-angular');
+
+// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '/public')));
+
+app.use('/auth', authRoutes);
+app.use('/user', userRoutes);
+app.use('/message', messageRoutes);
+app.use('/', appRoutes);
 
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -34,9 +39,12 @@ app.use(function (req, res, next) {
 });
 
 
-app.use('/', appRoutes);
-app.use((error, req, res, next) => {
-    console.log(error);
-    res.status(500).json(String(error));
-})
-module.exports = app; 
+
+
+// catch 404 and forward to error handler
+// app.use(function (req, res, next) {
+//     return res.render('index');
+// });
+
+
+module.exports = app;
