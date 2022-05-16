@@ -1,4 +1,4 @@
-var path = require('path'); 
+var path = require('path');
 
 var webpackMerge = require('webpack-merge');
 var commonConfig = require('./webpack.config.common.js');

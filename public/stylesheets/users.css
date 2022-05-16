@@ -1,0 +1,48 @@
+body{
+    padding: 5px;
+    margin: 0px;
+    background-color: #F2F2F2;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1{
+    color: #059C00;
+}
+
+form{
+    background-color: #fff;
+    width: 200px;    
+    padding: 20px; 
+    
+}
+
+form p {
+    margin-bottom: 1px;
+    font-weight: bold;
+    
+}
+
+form input{
+    
+    border: 1px solid #E1E1E1;
+    border-radius: 5px;
+    flex:1;
+    width: 100%;
+
+}
+
+form button{
+    flex:1;
+    border: none;
+    background-color: #4692FF;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+
+}
+
+form button:hover{
+    background-color: #28518E;
+}

@@ -1,9 +1,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var Schema = new Schema({
+var schema = new Schema({
     content: {type: String, required: true},
-    user: {type: Schema.Types.ObjectId, ref: 'User'}
-
+    user: {type: Schema.Types.Mixed, ref: 'User'}
 });
-module.exports = mongoose.model('Message', Schema); 
+
+module.exports = mongoose.model('Message', schema);

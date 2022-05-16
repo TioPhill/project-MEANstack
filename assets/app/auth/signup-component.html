@@ -1,0 +1,30 @@
+<div class="col-md-8 col-md-offset-2">
+    <form (ngSubmit) = "onSubmit(refLocalForm)" #refLocalForm="ngForm" [formGroup]="myForm" >
+        <div class="form-group">
+            <label for="firstName">Nome:</label>
+            <input type="text" id="firstName" class="form-control" 
+                formControlName="firstNameTS" name="firstName">
+                
+        </div>
+        <div class="form-group">
+            <label for="lastName">SobreNome:</label>
+            <input type="text" id="lastName" class="form-control" 
+                formControlName="lastNameTS" name="lastName">
+                
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" class="form-control" 
+                formControlName="emailTS" name="email">
+                
+        </div>
+        <div class="form-group">
+            <label for="pass">Senha:</label>
+            <input type="password" id="password" class="form-control" 
+                formControlName="passwordTS" name="password">
+                
+        </div>
+        <button class="btn btn-primary" type="submit"
+            [disabled]="!myForm.valid">Cadastrar</button>
+    </form>
+</div>
